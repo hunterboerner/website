@@ -2,6 +2,7 @@ require 'erb'
 require 'redcarpet'
 require 'rouge'
 require 'rouge/plugins/redcarpet'
+require 'ostruct'
 
 class HTML < Redcarpet::Render::HTML
   include Rouge::Plugins::Redcarpet
@@ -46,38 +47,32 @@ class Gen
         title: title,
         raw: content,
         content: markdown.render(content),
-        last_modified: history.first,
-        created: history.last,
-        size: size
+        html: nil,
+        updated_at: history.first,
+        created_at: history.last,
+        size: size,
+        relative_location: "#{file.sub('./src', '')}\n"
       }
     end
   end
 
-  def pages_to_html(posts)
+  def gen_pages_html(posts)
     layout = File.read("page-template.erb")
-    posts = posts.map do |post|
-      b = binding
-      relative_location = post[:relative_location]
-      name = post[:name]
-      content = post[:content]
-      title = post[:title]
-      updated_at = post[:last_modified]
-      created_at = post[:created]
-      size = post[:size]
-      ERB.new(layout).result(b)
+    posts.each do |post|
+      post[:html] = ERB.new(layout).
+                    result(OpenStruct.new(post).instance_eval { binding })
     end
-
-    posts.first.gsub('<hr>', '<span>' + '=' * 80 + '</span>')
-  end
-
-  def build
-    b = binding
-    ERB.new("").result(b)
+    posts
+    # posts.first[:html].gsub('<hr>', '<span>' + '=' * 80 + '</span>')
   end
 end
 
 gen = Gen.new
 page_objects = gen.page_objects
-html = gen.pages_to_html(page_objects)
+pages = gen.gen_pages_html(page_objects)
 
-File.open("demo.html", 'w') { |file| file.write(html) }
+pages.each do |page|
+
+end
+
+# File.open("demo.html", 'w') { |file| file.write(html) }
