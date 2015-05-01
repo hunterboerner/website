@@ -9,7 +9,7 @@ end
 
 class Gen
   def files
-    Dir.glob("./blog/*.md").sort
+    Dir.glob("./src/**/*.md").sort
   end
 
   def as_size(s)
@@ -22,7 +22,7 @@ class Gen
     "#{size > 9 || size.modulo(1) < 0.1 ? '%d' : '%.1f'}%s" % [size, unit]
   end
 
-  def blog_objects
+  def page_objects
     files.map do |file|
       history = `git log --format="%an %cd %h" --date=short #{file}`.
                 split("\n").map(&:strip)
@@ -53,10 +53,11 @@ class Gen
     end
   end
 
-  def blog_to_html(posts)
-    layout = File.read("post-template.erb")
+  def pages_to_html(posts)
+    layout = File.read("page-template.erb")
     posts = posts.map do |post|
       b = binding
+      relative_location = post[:relative_location]
       name = post[:name]
       content = post[:content]
       title = post[:title]
@@ -75,10 +76,8 @@ class Gen
   end
 end
 
-# puts Gen.new.files
-# puts Gen.new.files.map { |file| File.basename(file) }
 gen = Gen.new
-blog_objects = gen.blog_objects
-html = gen.blog_to_html(blog_objects)
+page_objects = gen.page_objects
+html = gen.pages_to_html(page_objects)
 
 File.open("demo.html", 'w') { |file| file.write(html) }
