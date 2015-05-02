@@ -122,4 +122,4 @@ pages.each do |page|
   File.open("./build/#{loc}.html", "w") { |file| file.write(page[:html]) }
 end
 
-FileUtils.cp_r(Dir.glob("assets"), "build", :verbose => true)
+FileUtils.cp_r(Dir.glob("assets/*"), "build", :verbose => true)
