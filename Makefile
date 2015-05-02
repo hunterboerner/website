@@ -8,5 +8,11 @@ setup:
 build:
 	ruby gen.rb
 
+release: GIT_COMMIT = $(git rev-parse HEAD)
 release: build
 	git stash
+	git checkout gh-pages
+	git ls-files -z | xargs -0 rm -f
+	mv -R build/* .
+	git add -A
+	git commit -am 'updated to $(GIT_COMMIT)'
