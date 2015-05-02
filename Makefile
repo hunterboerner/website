@@ -16,3 +16,5 @@ release: build
 	mv build/* .
 	git add -A
 	git commit -am 'updated to $(GIT_COMMIT)'
+	git push
+	git checkout master
