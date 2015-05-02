@@ -3,6 +3,7 @@ require 'redcarpet'
 require 'rouge'
 require 'rouge/plugins/redcarpet'
 require 'ostruct'
+require 'fileutils'
 
 class HTML < Redcarpet::Render::HTML
   include Rouge::Plugins::Redcarpet
@@ -23,12 +24,49 @@ class Gen
     "#{size > 9 || size.modulo(1) < 0.1 ? '%d' : '%.1f'}%s" % [size, unit]
   end
 
+  def sitemap
+    files = {}
+    Dir["src/**/*"].sort.each do |file|
+      next if File.directory?(file)
+      file.slice!("src/")
+      dirname = File.dirname(file)
+      if files[dirname]
+        files[dirname] << [File.basename(file, ".md"), file]
+      else
+        files[dirname] = []
+        files[dirname] << [File.basename(file, ".md"), file]
+      end
+    end
+
+    sitemap = ""
+
+    if files["."]
+      files["."].each do |file|
+        sitemap << "<a href=\"#{file[1].sub(/\.md$/, '')}.html\">#{file[0]}</a>\n"
+      end
+      files.delete(".")
+      sitemap << "\n\n"
+    end
+
+    files.each do |dir, files|
+      sitemap << "#{dir}:\n"
+      sitemap << "  "
+      files.each do |file|
+        sitemap << "<a href=\"#{file[1].sub(/\.md$/, '')}.html\">#{file[0]}</a>\n  "
+      end
+      sitemap << "\n\n"
+    end
+    sitemap.strip
+  end
+
   def page_objects
     files.map do |file|
       history = `git log --format="%an %cd %h" --date=short #{file}`.
                 split("\n").map(&:strip)
 
       content = File.read(file)
+      # Add sitemap here
+      content.sub!("<!-- sitemap -->", sitemap)
       size = "Stats: " \
              "#{as_size(File.size(file))} -- " \
              "#{content.scan(/[[:alpha:]]+/).count} Word(s) -- " \
@@ -42,6 +80,7 @@ class Gen
                                          tables: true,
                                          footnotes: true,
                                          strikethrough: true)
+      relative_location = "#{file.sub('./src/', '')}"
       {
         name: File.basename(file),
         title: title,
@@ -51,7 +90,8 @@ class Gen
         updated_at: history.first,
         created_at: history.last,
         size: size,
-        relative_location: "#{file.sub('./src', '')}\n"
+        relative_location: relative_location,
+        path_to_root: '../' * relative_location.count('/')
       }
     end
   end
@@ -61,18 +101,19 @@ class Gen
     posts.each do |post|
       post[:html] = ERB.new(layout).
                     result(OpenStruct.new(post).instance_eval { binding })
+      post[:html].gsub!('<hr>', "<span>#{'=' * 80}</span>")
     end
     posts
-    # posts.first[:html].gsub('<hr>', '<span>' + '=' * 80 + '</span>')
   end
 end
 
 gen = Gen.new
 page_objects = gen.page_objects
 pages = gen.gen_pages_html(page_objects)
+FileUtils.remove_dir("./build")
 
 pages.each do |page|
-
+  FileUtils.mkdir_p("./build/#{File.dirname(page[:relative_location])}")
+  loc = page[:relative_location].sub(/\.md$/, '')
+  File.open("./build/#{loc}.html", "w") { |file| file.write(page[:html]) }
 end
-
-# File.open("demo.html", 'w') { |file| file.write(html) }

@@ -1,26 +1,281 @@
 <html>
-
   <head>
     <title>Theron Boerner</title>
     <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono" rel='stylesheet' type='text/css'>
-    <link href="main.css" rel="stylesheet"/>
-    <style>
+    <style type="text/css">
+      html {
+      font-family: 'Droid Sans Mono';
+      font-size: 10pt;
+      background-color: #2d2d2d;
+      }
+      body {
+      color: #cccccc;
+      width: 80ch;
+      }
+      hr {
+      border: none;
+      }
+      hr:after {
+      content: "================================================================================";
+      }
+      h1 a.section-link,
+      h2 a.section-link,
+      h3 a.section-link,
+      h4 a.section-link,
+      h5 a.section-link {
+      display: none;
+      }
+      h1:hover a.section-link,
+      h2:hover a.section-link,
+      h3:hover a.section-link,
+      h4:hover a.section-link,
+      h5:hover a.section-link {
+      display: inline;
+      }
+      .symlink {
+      color: #cc99cc;
+      }
+      span,
+      p {
+      white-space: pre-wrap;
+      }
+      .info span {
+      display: block;
+      }
+      b,
+      strong {
+      text-decoration: underline;
+      }
+      a {
+      color: #6699cc;
+      font-weight: bold;
+      }
+      a:hover {
+      color: #66cccc;
+      }
+      .highlight .hll {
+      background-color: #2d2d2d
+      }
+      .highlight {
+      background: #515151;
+      color: #cccccc;
+      margin: 0;
+      padding: 1em 0px;
+      }
+      .highlight code {
+      margin-left: 2ch;
+      font-family: "Droid Sans Mono";
+      }
+      .highlight .c {
+      color: #999999
+      }
+      .highlight .err {
+      color: #f2777a
+      }
+      .highlight .k {
+      color: #cc99cc
+      }
+      .highlight .l {
+      color: #f99157
+      }
+      .highlight .n {
+      color: #cccccc
+      }
+      .highlight .o {
+      color: #66cccc
+      }
+      .highlight .p {
+      color: #cccccc
+      }
+      .highlight .cm {
+      color: #999999
+      }
+      .highlight .cp {
+      color: #999999
+      }
+      .highlight .c1 {
+      color: #999999
+      }
+      .highlight .cs {
+      color: #999999
+      }
+      .highlight .gd {
+      color: #f2777a
+      }
+      .highlight .ge {
+      font-style: italic
+      }
+      .highlight .gh {
+      color: #cccccc;
+      font-weight: bold
+      }
+      .highlight .gi {
+      color: #99cc99
+      }
+      .highlight .gp {
+      color: #999999;
+      font-weight: bold
+      }
+      .highlight .gs {
+      font-weight: bold
+      }
+      .highlight .gu {
+      color: #66cccc;
+      font-weight: bold
+      }
+      .highlight .kc {
+      color: #cc99cc
+      }
+      .highlight .kd {
+      color: #cc99cc
+      }
+      .highlight .kn {
+      color: #66cccc
+      }
+      .highlight .kp {
+      color: #cc99cc
+      }
+      .highlight .kr {
+      color: #cc99cc
+      }
+      .highlight .kt {
+      color: #ffcc66
+      }
+      .highlight .ld {
+      color: #99cc99
+      }
+      .highlight .m {
+      color: #f99157
+      }
+      .highlight .s {
+      color: #99cc99
+      }
+      .highlight .na {
+      color: #6699cc
+      }
+      .highlight .nb {
+      color: #cccccc
+      }
+      .highlight .nc {
+      color: #ffcc66
+      }
+      .highlight .no {
+      color: #f2777a
+      }
+      .highlight .nd {
+      color: #66cccc
+      }
+      .highlight .ni {
+      color: #cccccc
+      }
+      .highlight .ne {
+      color: #f2777a
+      }
+      .highlight .nf {
+      color: #6699cc
+      }
+      .highlight .nl {
+      color: #cccccc
+      }
+      .highlight .nn {
+      color: #ffcc66
+      }
+      .highlight .nx {
+      color: #6699cc
+      }
+      .highlight .py {
+      color: #cccccc
+      }
+      .highlight .nt {
+      color: #66cccc
+      }
+      .highlight .nv {
+      color: #f2777a
+      }
+      .highlight .ow {
+      color: #66cccc
+      }
+      .highlight .w {
+      color: #cccccc
+      }
+      .highlight .mf {
+      color: #f99157
+      }
+      .highlight .mh {
+      color: #f99157
+      }
+      .highlight .mi {
+      color: #f99157
+      }
+      .highlight .mo {
+      color: #f99157
+      }
+      .highlight .sb {
+      color: #99cc99
+      }
+      .highlight .sc {
+      color: #cccccc
+      }
+      .highlight .sd {
+      color: #999999
+      }
+      .highlight .s2 {
+      color: #99cc99
+      }
+      .highlight .se {
+      color: #f99157
+      }
+      .highlight .sh {
+      color: #99cc99
+      }
+      .highlight .si {
+      color: #f99157
+      }
+      .highlight .sx {
+      color: #99cc99
+      }
+      .highlight .sr {
+      color: #99cc99
+      }
+      .highlight .s1 {
+      color: #99cc99
+      }
+      .highlight .ss {
+      color: #99cc99
+      }
+      .highlight .bp {
+      color: #cccccc
+      }
+      .highlight .vc {
+      color: #f2777a
+      }
+      .highlight .vg {
+      color: #f2777a
+      }
+      .highlight .vi {
+      color: #f2777a
+      }
+      .highlight .il {
+      color: #f99157
+      }
     </style>
   </head>
 
   <body>
     <div class="nav">
       <a href="about.html">About</a><span>                           </span>
-      <a class="index-link" href="index.html">Theron Boerner</a><span>                          </span>
+      <a class="index-link" href="<%= path_to_root %>index.html">Theron Boerner</a><span>                          </span>
       <a href="http://github.com/hunterboerner/website">Source</a>
     </div>
 
     <div class="content">
       <h1><%= title %><a href="#title" class="section-link">&#xA7;</a></h1>
-      <span><%= relative_location %></span>
-      <span><%= size %></span>
-      <span class="updated-at">Updated: <%= updated_at %></span>
-      <span class="created-at">Created: <%= created_at %></span>
+      <div class="info">
+        <span><%= relative_location %></span>
+        <span><%= size %></span>
+        <span class="updated-at">Updated: <%= updated_at %></span>
+        <span class="created-at">Created: <%= created_at %></span>
+      </div>
       <hr>
       <%= content %>
     </div>
@@ -28,7 +283,7 @@
     <hr>
 
     <div class="footer">
-      <p>All rights reserved &#xA9; 2015 Theron Boerner</p>
+      <p>Content &#xA9; 2015 Theron Boerner</p>
     </div>
   </body>
 
