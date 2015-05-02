@@ -1,12 +1,11 @@
+.PHONY: *
+
 error:
 	@echo "You must specify a target"
 	@exit 2
 
 setup:
 	bundle install
-
-build:
-	ruby gen.rb
 
 release: GIT_COMMIT = $(git rev-parse HEAD)
 release: build
@@ -18,3 +17,7 @@ release: build
 	git commit -am 'updated to $(GIT_COMMIT)'
 	git push
 	git checkout master
+
+build:
+	echo "wat"
+	ruby gen.rb
