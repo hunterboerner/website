@@ -121,3 +121,5 @@ pages.each do |page|
   loc = page[:relative_location].sub(/\.md$/, '')
   File.open("./build/#{loc}.html", "w") { |file| file.write(page[:html]) }
 end
+
+FileUtils.cp_r(Dir.glob("assets"), "build", :verbose => true)
