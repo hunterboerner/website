@@ -1,3 +1,4 @@
+# coding: utf-8
 require 'erb'
 require 'redcarpet'
 require 'rouge'
@@ -7,6 +8,32 @@ require 'fileutils'
 
 class HTML < Redcarpet::Render::HTML
   include Rouge::Plugins::Redcarpet
+
+  def header(title, level)
+    fragment = title.downcase.gsub(/\W+/, '-')
+
+    # make the fragment unique by appending an incremented counter
+    @fragments ||= []
+    if @fragments.include? fragment
+      fragment += '_1'
+      fragment = fragment.next while @fragments.include? fragment
+    end
+    @fragments << fragment
+
+    # generate HTML for this header containing the above fragment
+    [?\n,
+
+      # %{<span class="anchor-icon">},
+      # '</span>',
+      # '</a>',
+
+      %{<h#{level} id="#{fragment}">},
+      title,
+      %{<a name="#{fragment}" href="##{fragment}" class="section-link">&#xA7;</a>},
+      "</h#{level}>",
+
+      ?\n].join
+  end
 end
 
 class Gen
