@@ -13,6 +13,6 @@ release: build
 	git stash
 	git checkout gh-pages
 	git ls-files -z | xargs -0 rm -f
-	mv -R build/* .
+	mv build/* .
 	git add -A
 	git commit -am 'updated to $(GIT_COMMIT)'
