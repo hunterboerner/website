@@ -110,7 +110,11 @@ end
 gen = Gen.new
 page_objects = gen.page_objects
 pages = gen.gen_pages_html(page_objects)
-FileUtils.remove_dir("./build")
+
+begin
+  FileUtils.remove_dir("./build")
+rescue
+end
 
 pages.each do |page|
   FileUtils.mkdir_p("./build/#{File.dirname(page[:relative_location])}")
