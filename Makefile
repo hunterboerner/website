@@ -13,7 +13,7 @@ release: build
 	git ls-files -z | xargs -0 rm -f
 	mv build/* .
 	git add -A
-	-git commit -am 'updated to $(git rev-parse HEAD)'
+	-git commit -am "updated to $(git rev-parse HEAD)"
 	git push
 	git checkout master
 
