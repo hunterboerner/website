@@ -263,28 +263,34 @@
 
   <body>
     <div class="nav">
-      <a href="about.html">About</a><span>                           </span>
-      <a href="index.html">Theron Boerner</a><span>                          </span>
+      <a href="../about.html">About</a><span>                           </span>
+      <a href="../index.html">Theron Boerner</a><span>                          </span>
       <a href="http://github.com/hunterboerner/website">Source</a>
     </div>
 
     <div class="content">
-      <h1>Theron Boerner<a href="#title" class="section-link">&#xA7;</a></h1>
+      <h1>Persistent SSH connections to make Git get git faster<a href="#title" class="section-link">&#xA7;</a></h1>
       <div class="info">
-        <span>index.md</span>
-        <span>Stats: 117B -- 50 Word(s) -- 11 Line(s)</span>
-        <span class="updated-at">Updated: Theron Boerner 2015-05-01 e20ae70</span>
-        <span class="created-at">Created: Theron Boerner 2015-05-01 e20ae70</span>
+        <span>blog/1-faster-git-ssh.md</span>
+        <span>Stats: 0.5KiB -- 85 Word(s) -- 18 Line(s)</span>
+        <span class="updated-at">Updated: Theron Boerner 2015-07-11 3f175c5</span>
+        <span class="created-at">Created: Theron Boerner 2015-07-11 3f175c5</span>
       </div>
       <span>================================================================================</span>
-      <p>Welcome to my website. Here you will find my ramblings. A full sitemap is below:</p>
+      <p>SSH connections take a while to initiate which is annoying when
+working with git over ssh. Add these lines to your ssh config
+<code>~/.ssh/config</code> which should persist your SSH connections and make
+remote git commands faster.</p>
+<pre class="highlight plaintext"><code>Host *
+    ControlMaster auto
+    ControlPath /tmp/%r@%h:%p
+    ControlPersist yes
+</code></pre>
 
-<p><a href="about.html">about</a>
-<a href="index.html">index</a></p>
+<p>If you only want it to be enabled on certain domains, put it under a
+different <code>Host</code> section.</p>
 
-<p>blog:
-  <a href="blog/0-hello-world.html">0-hello-world</a>
-  <a href="blog/1-faster-git-ssh.html">1-faster-git-ssh</a></p>
+<p>Original Source: <a href="http://interrobeng.com/2013/08/25/speed-up-git-5x-to-50x/">http://interrobeng.com/2013/08/25/speed-up-git-5x-to-50x/</a></p>
 
     </div>
 
